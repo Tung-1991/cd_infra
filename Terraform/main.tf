@@ -4,9 +4,7 @@ provider "vsphere" {
   vsphere_server	= var.vsphere_server
   allow_unverified_ssl	= true
 }
-data "vsphere_datacenter" "dc" {
-  name = var.vsphere_datacenter
-}
+data "vsphere_datacenter" "dc" { name = var.vsphere_datacenter}
 data "vsphere_host" "hosts" {
   name			= var.vsphere_host
   datacenter_id		= data.vsphere_datacenter.dc.id
@@ -40,23 +38,14 @@ resource "vsphere_virtual_machine" "vm" {
   num_cpus 		= each.value.vcpu
   memory		= each.value.memory
   firmware		= var.vm_firmware 
-  disk {
-    label		= var.vm_disk_label
-    size		= var.vm_disk_size
-    thin_provisioned	= var.vm_disk_thin
-    unit_number = 0
-  }
-  disk {
-    label		= var.vm_disk_label2
-    size		= var.vm_disk_size2
-    thin_provisioned	= var.vm_disk_thin
-    unit_number = 1
-  }
-  disk {
-    label		= var.vm_disk_label3
-    size		= var.vm_disk_size3
-    thin_provisioned	= var.vm_disk_thin
-    unit_number = 2
+  dynamic "disk" {
+    for_each = var.disks
+    content {
+      label            = disk.value.label
+      size             = disk.value.size
+      thin_provisioned = disk.value.thin_provisioned
+      unit_number      = disk.value.unit_number
+    }
   }
   clone {
     template_uuid       = data.vsphere_virtual_machine.template.id
