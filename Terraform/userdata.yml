@@ -1,0 +1,11 @@
+users:
+  - default
+  - name: testansible
+    primary_group: root
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: vcbs@123
+runcmd:
+  - apt update
+  - apt upgrade -y
+  - hostnamectl set-hostname VCBS
