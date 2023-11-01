@@ -1,0 +1,93 @@
+- name: Simple Play
+  hosts: all
+  become: yes
+  vars:
+    ansible_become_pass: 1
+    tkusers: ["vcbsadmin", "quantri"]
+    tkpass: "t1"
+    packages:
+      - neofetch
+      - tree
+      - figlet
+      - net-tools
+    nexusrepo: "deb http://192.168.153.203/ubuntu/ focal main restricted universe multiverse"  
+  tasks:
+    - name: Ping ket noi
+      ping:
+
+    - name: doi Hostname VCBS
+      hostname:
+        name: VCBS2
+      notify:
+      - Copy SSH key
+      - reset may
+
+    - name: taouser
+      loop: "{{ tkusers }}"
+      user:
+        name: "{{ item }}"
+        password: "{{ tkpass | password_hash }}"
+        groups: sudo
+        shell: /bin/bash
+        createhome: yes
+
+    - name: settime
+      timezone:
+        name: Asia/Ho_Chi_Minh
+      notify:
+      - Stop unattended upgrades
+
+    - name: caichrony
+      apt:
+        name: chrony
+        state: latest
+      notify:
+      - restart chrony
+
+    - name: Install snmpd package
+      apt:
+        name: snmpd
+        state: present
+      notify:
+      - restart snmp
+
+    - name: "Install Common packages"
+      apt:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ packages }}"
+
+    - name: Add Ubuntu 22.04 repo
+      lineinfile:
+        path: /etc/apt/sources.list
+        line: "{{ nexusrepo }}"
+        state: present
+      notify:
+      - Update apt cache
+
+  handlers:
+    - name: Copy SSH key
+      authorized_key:
+        user: cdinfra
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: restart chrony
+      service:
+        name: chrony
+        enabled: yes
+        state: restarted
+
+    - name: restart snmp
+      service:
+        name: snmpd
+        enabled: yes
+        state: restarted
+
+    - name: Stop unattended upgrades
+      command: systemctl stop unattended-upgrades
+
+    - name: Update apt cache
+      command: apt-get update
+    
+    - name: reset may
+      reboot:

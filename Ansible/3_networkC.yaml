@@ -1,0 +1,44 @@
+- hosts: all
+  become: yes
+  vars:
+    ansible_become_pass: 1
+    network_cards:
+      - intname: ens36
+        ip_address: 192.168.41.154
+        gateway: 192.168.41.2
+        dns_servers:
+          - 8.8.8.8
+          - 1.1.1.1
+      - intname: ens37
+        ip_address: 192.168.42.155
+        gateway: 192.168.42.2
+        dns_servers:
+          - 8.8.4.4
+          - 1.0.0.1
+    http_proxy: "http://192.168.180.114:3128"
+    https_proxy: "http://192.168.180.114:3128"
+    ftp_proxy: "http://192.168.180.114:3128"
+    no_proxy: "10.0.*.*,172.20.*.*,192.168.*.*,autosso.vcbs.com.vn,ssolocal.vcbs.com.vn,flex.vcbs.com.vn,crmlocal.vcbs.com.vn,tableausrv.vcbs.com.vn,tableausrv.vcbs.com.vn,172.20.*.*,chatcc.vcbs.com.vn"
+
+  tasks:
+
+    - name: Copy and rename network configuration file
+      loop: "{{ network_cards }}"
+      template:
+        src: netINT.yaml
+        dest: "/etc/netplan/{{ item.intname }}.yaml"
+      notify: apply netplan
+
+    - name: Configure proxy settings
+      blockinfile:
+        path: /etc/environment
+        block: |
+          http_proxy="{{ http_proxy }}"
+          https_proxy="{{ https_proxy }}"
+          ftp_proxy="{{ ftp_proxy }}"
+          no_proxy="{{ no_proxy }}"
+        state: present
+
+  handlers:
+    - name: apply netplan
+      command: netplan apply
