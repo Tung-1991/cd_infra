@@ -69,5 +69,11 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
-
+#resource "vsphere_virtual_machine_snapshot" "snapshot" {
+#  virtual_machine_uuid = vsphere_virtual_machine.vm[*].uuid
+#  snapshot_name        = "snapshot"
+#  description          = "Snapshot description"
+#  memory               = true
+#  quiesce              = true
+#}
 
