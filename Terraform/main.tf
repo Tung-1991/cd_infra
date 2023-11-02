@@ -59,7 +59,7 @@ resource "vsphere_virtual_machine" "vm" {
       ipv4_netmask	= var.vm_ipv4_netmask
     }
     ipv4_gateway = var.vm_ipv4_gateway
-    dns_server_list = var.vm_dns_servers
+    dns_server_list = each.value.DNS
    }
   }
   extra_config = {

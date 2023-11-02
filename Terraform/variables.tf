@@ -15,7 +15,6 @@ variable "vm_template_name" {type = string}
 variable "vm_guest_id" {type = string}
 variable "vm_ipv4_netmask" {type = number}
 variable "vm_ipv4_gateway" {type = string}
-variable "vm_dns_servers" {}
 variable "vm_disk_thin" {
    default = true
    type = bool
