@@ -1,0 +1,19 @@
+- hosts: ELKm
+  become: yes
+  roles:
+    - checklistUbuntu
+  tasks:
+  - import_tasks: tasks/ELKm.yml
+  handlers:
+  - import_tasks: handlers/main.yml
+  tags: elkmaster
+
+- hosts: ELKs
+  become: yes
+  roles:
+    - checklistUbuntu
+  tasks:
+  - import_tasks: tasks/ELKs.yml
+  handlers:
+  - import_tasks: handlers/main.yml
+  tags: elkslave

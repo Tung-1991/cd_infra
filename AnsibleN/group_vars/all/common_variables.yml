@@ -1,0 +1,43 @@
+ansible_become_pass: 1
+#rolechecklist
+tkusers: ["vcbsadmin", "quantri"]
+tkpass: "t1"
+packages:
+  - neofetch
+  - tree
+  - figlet
+  - net-tools
+nexusrepo: "deb http://192.168.153.203/ubuntu/ focal main restricted universe multiverse"
+#LVM
+volumes:
+  - vg_name: vg1
+    pvs: "/dev/sdb"
+    lv_name: lv1
+    mount_point: /app1
+  - vg_name: vg2
+    pvs: "/dev/sdc"
+    lv_name: lv2
+    mount_point: /app2
+#network
+skip_network_config: true
+network_cards:
+  - intname: ens36
+    ip_address: 192.168.41.154
+    gateway: 192.168.41.2
+    dns_servers:
+      - 8.8.8.8
+      - 1.1.1.1
+  - intname: ens37
+    ip_address: 192.168.42.155
+    gateway: 192.168.42.2
+    dns_servers:
+      - 8.8.4.4
+      - 1.0.0.1
+http_proxy: "http://192.168.180.114:3128"
+https_proxy: "http://192.168.180.114:3128"
+ftp_proxy: "http://192.168.180.114:3128"
+no_proxy: "10.0.*.*,172.20.*.*,192.168.*.*,autosso.vcbs.com.vn,ssolocal.vcbs.com.vn,flex.vcbs.com.vn,crmlocal.vcbs.com.vn,tableausrv.vcbs.com.vn,tableausrv.vcbs.com.vn,172.20.*.*,chatcc.vcbs.com.vn"
+#ELKm
+
+#ELKs
+logstash_ip: 192.168.41.152

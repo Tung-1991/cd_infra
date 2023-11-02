@@ -1,0 +1,16 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    {{ item.intname }}:
+      dhcp4: no
+      dhcp6: no
+      addresses:
+      - {{ item.ip_address }}/24
+      routes:
+      - to: default
+        via: {{ item.gateway }}
+      nameservers:
+        addresses:
+        - {{ item.dns_servers[0] }}
+        - {{ item.dns_servers[1] }}

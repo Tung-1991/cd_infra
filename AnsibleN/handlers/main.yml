@@ -1,0 +1,9 @@
+  - name: Set vm.max_map_count
+    ansible.builtin.command:
+      cmd: sudo sysctl -w vm.max_map_count=262144
+  - name: restart filebeat
+    service:
+      name: filebeat
+      state: restarted
+  - name: apply netplan
+    command: netplan apply

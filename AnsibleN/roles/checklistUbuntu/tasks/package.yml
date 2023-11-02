@@ -1,0 +1,25 @@
+    - name: settime
+      timezone:
+        name: Asia/Ho_Chi_Minh
+      notify:
+      - Stop unattended upgrades
+
+    - name: caichrony
+      apt:
+        name: chrony
+        state: latest
+      notify:
+      - restart chrony
+
+    - name: Install snmpd package
+      apt:
+        name: snmpd
+        state: present
+      notify:
+      - restart snmp
+
+    - name: "Install Common packages"
+      apt:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ packages }}"

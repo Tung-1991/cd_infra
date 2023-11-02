@@ -1,0 +1,7 @@
+    - name: Add Ubuntu 22.04 repo
+      lineinfile:
+        path: /etc/apt/sources.list
+        line: "{{ nexusrepo }}"
+        state: present
+      notify:
+      - Update apt cache

@@ -1,0 +1,31 @@
+    - name: Install required packages
+      apt:
+        name: lvm2
+        state: present
+
+    - name: Create volume group {{ item.vg_name }} with {{ item.pvs }}
+      community.general.lvg:
+        vg: "{{ item.vg_name }}"
+        pvs: "{{ item.pvs.split(',') }}"
+      loop: "{{ volumes }}"
+
+    - name: Create logical volume {{ item.lv_name }} on {{ item.vg_name }}
+      community.general.lvol:
+        vg: "{{ item.vg_name }}"
+        lv: "{{ item.lv_name }}"
+        size: 100%FREE
+      loop: "{{ volumes }}"
+
+    - name: Create filesystem on /dev/{{ item.vg_name }}/{{ item.lv_name }}
+      filesystem:
+        fstype: ext4
+        dev: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
+      loop: "{{ volumes }}"
+
+    - name: Mount /dev/{{ item.vg_name }}/{{ item.lv_name }} on {{ item.mount_point }}
+      mount:
+        path: "{{ item.mount_point }}"
+        src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}"
+        fstype: ext4
+        state: mounted
+      loop: "{{ volumes }}"

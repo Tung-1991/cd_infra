@@ -1,0 +1,27 @@
+---
+# handlers file for roles/checklist
+- name: Copy SSH key
+  authorized_key:
+    user: cdinfra
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: restart chrony
+  service:
+    name: chrony
+    enabled: yes
+    state: restarted
+
+- name: restart snmp
+  service:
+    name: snmpd
+    enabled: yes
+    state: restarted
+
+- name: Stop unattended upgrades
+  command: systemctl stop unattended-upgrades
+
+- name: Update apt cache
+  command: apt-get update
+    
+- name: reset may
+  reboot:

@@ -1,0 +1,26 @@
+    - name: Ensure python-apt is installed
+      apt:
+        name: python-apt
+        state: present
+
+    - name: Import Elastic's GPG key
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Elastic's repository
+      apt_repository:
+        repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+        state: present
+
+    - name: Install Filebeat
+      apt:
+        name: filebeat
+        state: present
+
+    - name: Configure Filebeat
+      template:
+        src: filebeat.yaml
+        dest: /etc/filebeat/filebeat.yaml
+      notify:
+        - restart filebeat

@@ -1,0 +1,6 @@
+- name: doi Hostname VCBS
+  hostname:
+    name: VCBS2
+  notify:
+  - Copy SSH key
+  - reset may

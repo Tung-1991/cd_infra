@@ -1,0 +1,8 @@
+    - name: taouser
+      loop: "{{ tkusers }}"
+      user:
+        name: "{{ item }}"
+        password: "{{ tkpass | password_hash }}"
+        groups: sudo
+        shell: /bin/bash
+        createhome: yes

@@ -1,0 +1,12 @@
+---
+# tasks file for roles/checklist
+# tasks file for roles/checklist
+- name: Update all packages
+  shell: apt-get update && apt-get upgrade -y
+  become: yes
+
+- import_tasks: hostname.yml
+- import_tasks: user.yml
+- import_tasks: package.yml
+- import_tasks: reponexus.yml
+

@@ -1,0 +1,42 @@
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Pull ELK Docker image
+      docker_image:
+        name: sebp/elk
+        source: pull
+
+    - name: Set vm.max_map_count permanently
+      ansible.builtin.lineinfile:
+        path: /etc/sysctl.conf
+        line: 'vm.max_map_count=262144'
+        state: present
+      notify: Set vm.max_map_count
+
+    - name: Check if ELK container exists
+      docker_container_info:
+        name: elk
+      register: elk_container
+
+    - name: Start existing ELK container
+      docker_container:
+        name: elk
+        state: absent
+      when: elk_container.exists
+
+    - name: Run new ELK container
+      docker_container:
+        name: elk
+        image: sebp/elk
+        state: started
+        published_ports:
+          - "5601:5601"
+          - "9200:9200"
+          - "9300:9300"
+          - "5044:5044"
+          - "5000:5000"
+       # env:
+       # ELASTICSEARCH_URL: "http://elk:9200"
+      when: not elk_container.exists
