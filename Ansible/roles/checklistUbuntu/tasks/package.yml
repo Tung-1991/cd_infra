@@ -1,8 +1,6 @@
     - name: settime
       timezone:
         name: Asia/Ho_Chi_Minh
-      notify:
-      - Stop unattended upgrades
 
     - name: caichrony
       apt:
