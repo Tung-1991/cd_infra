@@ -15,6 +15,6 @@ vm_domain	= ""
 vm_firmware = "efi"
 #template máy ảo, clone để ra nhiều máy
 vms = {
-  PC1={name="Ubuntu41-152",vcpu=2,memory=4096,vm_ip="192.168.41.152", DNS = ["8.8.8.8", "8.8.4.4"]}
+  PC1={name="Ubuntu41-152",vcpu=2,memory=2048,vm_ip="192.168.41.152", DNS = ["8.8.8.8", "8.8.4.4"]}
   PC2={name="Ubuntu41-153",vcpu=1,memory=1024,vm_ip="192.168.41.153", DNS = ["8.8.8.8", "8.8.4.4"]}
 }

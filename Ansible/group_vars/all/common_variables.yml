@@ -7,6 +7,7 @@ packages:
   - tree
   - figlet
   - net-tools
+skip_nexus_repo: true
 nexusrepo: "deb http://192.168.153.203/ubuntu/ focal main restricted universe multiverse"
 #LVM
 volumes:

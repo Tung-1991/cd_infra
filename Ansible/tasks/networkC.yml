@@ -4,7 +4,7 @@
         src: netINT.yaml
         dest: "/etc/netplan/{{ item.intname }}.yaml"
       notify: apply netplan
-    when: not skip_network_config
+      when: not skip_network_config
 
 
     - name: Configure proxy settings

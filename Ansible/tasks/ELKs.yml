@@ -1,26 +1,25 @@
-    - name: Ensure python-apt is installed
-      apt:
-        name: python-apt
-        state: present
+- name: Install Filebeat
+  package:
+    name: filebeat
+    state: present
 
-    - name: Import Elastic's GPG key
-      apt_key:
-        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-        state: present
+- name: Download Filebeat configuration file
+  get_url:
+    url: http://example.com/path/to/filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+    mode: 0644
 
-    - name: Add Elastic's repository
-      apt_repository:
-        repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
-        state: present
+- name: Enable and configure system module
+  command: filebeat modules enable system
 
-    - name: Install Filebeat
-      apt:
-        name: filebeat
-        state: present
+- name: Update Filebeat configuration
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    regexp: '^output.elasticsearch:'
+    line: 'output.elasticsearch: {hosts: ["<elasticsearch_host>:<elasticsearch_port>"]}'
 
-    - name: Configure Filebeat
-      template:
-        src: filebeat.yaml
-        dest: /etc/filebeat/filebeat.yaml
-      notify:
-        - restart filebeat
+- name: Start Filebeat service
+  service:
+    name: filebeat
+    state: started
+    enabled: yes

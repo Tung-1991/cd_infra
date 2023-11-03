@@ -5,3 +5,4 @@
         state: present
       notify:
       - Update apt cache
+      when: not skip_nexus_repo
