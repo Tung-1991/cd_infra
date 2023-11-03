@@ -43,4 +43,5 @@ no_proxy: "10.0.*.*,172.20.*.*,192.168.*.*,autosso.vcbs.com.vn,ssolocal.vcbs.com
 #ELKm
 
 #ELKs
-logstash_ip: 192.168.41.152
+logstash_host: 192.168.41.152
+logstash_port: 5044
