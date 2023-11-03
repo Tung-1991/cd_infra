@@ -16,11 +16,11 @@
           ftp_proxy="{{ ftp_proxy }}"
           no_proxy="{{ no_proxy }}"
         state: present
-      notify: not con_proxy
+      when: not con_proxy
 
     - name: Delete proxy configuration
       lineinfile:
         path: /etc/environment
         state: absent
         regexp: 'http_proxy|https_proxy|ftp_proxy|no_proxy'
-      notify: not delete_proxy
+      when: not delete_proxy

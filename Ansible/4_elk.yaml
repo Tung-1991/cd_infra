@@ -2,14 +2,10 @@
   become: yes
   tasks:
   - import_tasks: tasks/ELKm.yml
-  handlers:
-  - import_tasks: handlers/main.yml
   tags: elkmaster
 
 - hosts: ELKs
   become: yes
   tasks:
   - import_tasks: tasks/ELKs.yml
-  handlers:
-  - import_tasks: handlers/main.yml
   tags: elkslave

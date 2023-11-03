@@ -1,7 +1,6 @@
 - hosts: all
   become: yes
   tasks:
-  tasks:
   - import_tasks: tasks/networkC.yml
   handlers:
   - import_tasks: handlers/main.yml

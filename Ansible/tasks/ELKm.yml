@@ -18,6 +18,7 @@
       - elasticsearch
       - kibana
       - logstash
+      - filebeat
     state: present
 
 - name: Copy configuration files
@@ -30,6 +31,14 @@
     - logstash/conf.d/30-elasticsearch-output.conf
     - logstash/conf.d/10-syslog-filter.conf
 
+- name: Enable system module in Filebeat
+  command: filebeat modules enable system
+
+- name: Copy Filebeat configuration
+  copy:
+    src: "templates/ELKm/filebeat.yml"
+    dest: "/etc/filebeat/filebeat.yml"
+
 - name: Enable and start services
   ansible.builtin.systemd:
     name: "{{ item }}"
@@ -39,3 +48,5 @@
     - elasticsearch
     - kibana
     - logstash
+    - filebeat
+
