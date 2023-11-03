@@ -1,6 +1,6 @@
 ansible_become_pass: 1
 #rolechecklist
-d_hostname: false
+d_hostname: true
 tkusers: ["vcbsadmin", "quantri"]
 tkpass: "t1"
 packages:
