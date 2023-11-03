@@ -3,40 +3,64 @@
         name: docker.io
         state: present
 
-    - name: Pull ELK Docker image
+    - name: Create a network
+      docker_network:
+        name: elk
+
+    - name: Pull Elasticsearch Docker image
       docker_image:
-        name: sebp/elk
+        name: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
         source: pull
+
+    - name: Run Elasticsearch container
+      docker_container:
+        name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+        state: started
+        networks:
+          - name: elk
+        published_ports:
+          - "9200:9200"
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: "true"
+          ELASTIC_PASSWORD: your_password
+
+    - name: Pull Logstash Docker image
+      docker_image:
+        name: docker.elastic.co/logstash/logstash:7.15.0
+        source: pull
+
+    - name: Run Logstash container
+      docker_container:
+        name: logstash
+        image: docker.elastic.co/logstash/logstash:7.15.0
+        state: started
+        networks:
+          - name: elk
+        published_ports:
+          - "5000:5000"
+
+    - name: Pull Kibana Docker image
+      docker_image:
+        name: docker.elastic.co/kibana/kibana:7.15.0
+        source: pull
+
+    - name: Run Kibana container
+      docker_container:
+        name: kibana
+        image: docker.elastic.co/kibana/kibana:7.15.0
+        state: started
+        networks:
+          - name: elk
+        published_ports:
+          - "5601:5601"
+        env:
+          ELASTICSEARCH_USERNAME: elastic
+          ELASTICSEARCH_PASSWORD: your_password
 
     - name: Set vm.max_map_count permanently
       ansible.builtin.lineinfile:
         path: /etc/sysctl.conf
         line: 'vm.max_map_count=262144'
         state: present
-      notify: Set vm.max_map_count
-
-    - name: Check if ELK container exists
-      docker_container_info:
-        name: elk
-      register: elk_container
-
-    - name: Start existing ELK container
-      docker_container:
-        name: elk
-        state: absent
-      when: elk_container.exists
-
-    - name: Run new ELK container
-      docker_container:
-        name: elk
-        image: sebp/elk
-        state: started
-        published_ports:
-          - "5601:5601"
-          - "9200:9200"
-          - "9300:9300"
-          - "5044:5044"
-          - "5000:5000"
-       # env:
-       # ELASTICSEARCH_URL: "http://elk:9200"
-      when: not elk_container.exists
