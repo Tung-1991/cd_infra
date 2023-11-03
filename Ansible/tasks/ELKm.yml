@@ -1,70 +1,41 @@
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: present
+- name: Import Elasticsearch GPG key
+  ansible.builtin.apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
 
-    - name: Remove all containers
-      shell: docker rm $(docker ps -a -q)
-      ignore_errors: yes
+- name: Add Elasticsearch APT repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+    state: present
 
-    - name: Create a network
-      docker_network:
-        name: elk
+- name: Update all packages
+  shell: apt-get update && apt-get upgrade -y
 
-    - name: Pull Elasticsearch Docker image
-      docker_image:
-        name: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-        source: pull
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - openjdk-11-jdk-headless
+      - elasticsearch
+      - kibana
+      - logstash
+    state: present
 
-    - name: Run Elasticsearch container
-      docker_container:
-        name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-        state: started
-        networks:
-          - name: elk
-        published_ports:
-          - "9200:9200"
-        env:
-          discovery.type: single-node
-          xpack.security.enabled: "true"
-          ELASTIC_PASSWORD: your_password
+- name: Copy configuration files
+  ansible.builtin.copy:
+    src: "templates/ELKm/{{ item }}"
+    dest: "/etc/{{ item }}"
+  with_items:
+    - kibana/kibana.yml
+    - logstash/conf.d/02-beats-input.conf
+    - logstash/conf.d/30-elasticsearch-output.conf
+    - logstash/conf.d/10-syslog-filter.conf
 
-    - name: Pull Logstash Docker image
-      docker_image:
-        name: docker.elastic.co/logstash/logstash:7.15.0
-        source: pull
-
-    - name: Run Logstash container
-      docker_container:
-        name: logstash
-        image: docker.elastic.co/logstash/logstash:7.15.0
-        state: started
-        networks:
-          - name: elk
-        published_ports:
-          - "5044:5044"
-
-    - name: Pull Kibana Docker image
-      docker_image:
-        name: docker.elastic.co/kibana/kibana:7.15.0
-        source: pull
-
-    - name: Run Kibana container
-      docker_container:
-        name: kibana
-        image: docker.elastic.co/kibana/kibana:7.15.0
-        state: started
-        networks:
-          - name: elk
-        published_ports:
-          - "5601:5601"
-        env:
-          ELASTICSEARCH_USERNAME: elastic
-          ELASTICSEARCH_PASSWORD: your_password
-
-    - name: Set vm.max_map_count permanently
-      ansible.builtin.lineinfile:
-        path: /etc/sysctl.conf
-        line: 'vm.max_map_count=262144'
-        state: present
+- name: Enable and start services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - elasticsearch
+    - kibana
+    - logstash
