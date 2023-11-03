@@ -14,7 +14,7 @@
         state: present
 
     - name: Update all packages
-      shell: apt-get update && apt-get upgrade -y
+      shell: apt-get update -y && apt-get upgrade -y
 
     - name: Install Filebeat
       apt:
@@ -32,5 +32,5 @@
     - name: Start Filebeat service
       systemd:
         name: filebeat
-        state: started
+        state: restarted
         enabled: yes
