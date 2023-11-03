@@ -17,9 +17,6 @@
     enabled: yes
     state: restarted
 
-- name: Stop unattended upgrades
-  command: systemctl stop unattended-upgrades
-
 - name: Update apt cache
   command: apt-get update
     
