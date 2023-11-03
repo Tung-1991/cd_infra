@@ -23,4 +23,4 @@
         path: /etc/environment
         state: absent
         regexp: 'http_proxy|https_proxy|ftp_proxy|no_proxy'
-      when: not delete_proxy
+      when: delete_proxy

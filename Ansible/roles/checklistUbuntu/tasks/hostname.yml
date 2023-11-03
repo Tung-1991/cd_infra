@@ -4,3 +4,4 @@
   notify:
   - Copy SSH key
   - reset may
+  when: d_hostname
