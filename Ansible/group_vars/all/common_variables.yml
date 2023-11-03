@@ -21,6 +21,8 @@ volumes:
     mount_point: /app2
 #network
 skip_network_config: true
+con_proxy: false
+delete_proxy: true
 network_cards:
   - intname: ens36
     ip_address: 192.168.41.154
