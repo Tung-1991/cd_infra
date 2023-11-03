@@ -3,6 +3,10 @@
         name: docker.io
         state: present
 
+    - name: Remove all containers
+      shell: docker rm $(docker ps -a -q)
+      ignore_errors: yes
+
     - name: Create a network
       docker_network:
         name: elk
@@ -39,7 +43,7 @@
         networks:
           - name: elk
         published_ports:
-          - "5000:5000"
+          - "5044:5044"
 
     - name: Pull Kibana Docker image
       docker_image:
@@ -57,7 +61,7 @@
           - "5601:5601"
         env:
           ELASTICSEARCH_USERNAME: elastic
-          ELASTICSEARCH_PASSWORD: elastic
+          ELASTICSEARCH_PASSWORD: your_password
 
     - name: Set vm.max_map_count permanently
       ansible.builtin.lineinfile:
