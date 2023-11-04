@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 dir('Ansible') {
-                    sh 'ansible-playbook -i AIn 1_checklist.yml'
+                    sh 'sudo -u cdinfra ansible-playbook -i AIn 1_checklist.yml'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
             }
             steps {
                 dir('Ansible') {
-                    sh 'ansible-playbook -i AIn 2_addLVM.yaml'
+                    sh 'sudo -u cdinfra ansible-playbook -i AIn 2_addLVM.yaml'
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             }
             steps {
                 dir('Ansible') {
-                    sh 'ansible-playbook -i AIn 3_networkC.yaml'
+                    sh 'sudo -u cdinfra ansible-playbook -i AIn 3_networkC.yaml'
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
             }
             steps {
                 dir('Ansible') {
-                    sh 'ansible-playbook -i AIn 4_elk.yaml --tags elkmaster'
+                    sh 'sudo -u cdinfra ansible-playbook -i AIn 4_elk.yaml --tags elkmaster'
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
             }
             steps {
                 dir('Ansible') {
-                    sh 'ansible-playbook -i AIn 4_elk.yaml --tags elkslave'
+                    sh 'sudo -u cdinfra ansible-playbook -i AIn 4_elk.yaml --tags elkslave'
                 }
             }
         }
