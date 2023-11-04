@@ -1,7 +1,7 @@
 - name: doi Hostname VCBS
   hostname:
-    name: VCBS2
+    name: "{{ d_hostname }}"
   notify:
   - Copy SSH key
   - reset may
-  when: d_hostname
+  when: cd_hostname

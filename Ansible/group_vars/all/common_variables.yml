@@ -1,7 +1,8 @@
 ansible_become_pass: 1
 #rolechecklist
-d_hostname: true
-tkusers: ["vcbsadmin", "quantri"]
+d_hostname: tungsv
+cd_hostname: true
+tkusers: ["admin", "quantri"]
 tkpass: "t1"
 packages:
   - neofetch
@@ -9,7 +10,7 @@ packages:
   - figlet
   - net-tools
 skip_nexus_repo: true
-nexusrepo: "deb http://192.168.153.203/ubuntu/ focal main restricted universe multiverse"
+nexusrepo: "deb http://192.168.1.10/ubuntu/ focal main restricted universe multiverse"
 #LVM các biến tương ứng phải được chỉnh sửa cho phù hợp với số disk được tạo bởi terraform
 volumes:
   - vg_name: vg1
@@ -37,10 +38,10 @@ network_cards:
     dns_servers:
       - 8.8.4.4
       - 1.0.0.1
-http_proxy: "http://192.168.180.114:3128"
-https_proxy: "http://192.168.180.114:3128"
-ftp_proxy: "http://192.168.180.114:3128"
-no_proxy: "10.0.*.*,172.20.*.*,192.168.*.*,autosso.vcbs.com.vn,ssolocal.vcbs.com.vn,flex.vcbs.com.vn,crmlocal.vcbs.com.vn,tableausrv.vcbs.com.vn,tableausrv.vcbs.com.vn,172.20.*.*,chatcc.vcbs.com.vn"
+http_proxy: "http://192.168.10.11:3128"
+https_proxy: "http://192.168.10.11:3128"
+ftp_proxy: "http://192.168.10.11:3128"
+no_proxy: "192.168.*.*"
 #ELKs
 logstash_host: 192.168.41.152
 logstash_port: 5044
