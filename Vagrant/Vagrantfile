@@ -47,6 +47,15 @@ Vagrant.configure("2") do |config|
 
       # xác thực quyền jenkins chạy dưới cdinfra (sẽ thay thế bằng user jenkins trên môi trường sau)
       echo 'jenkins ALL=(cdinfra) NOPASSWD: ALL' >> /etc/sudoers
+      # không kiểm tra hosts ssh khi đổi hostname
+      touch ~/.ssh/config
+      echo "Host *
+      StrictHostKeyChecking no" >> ~/.ssh/config
+      chmod 400 ~/.ssh/config
     SHELL
   end
 end
+
+#trên máy clone cần phải có key public ssh của máy Master
+#copy file id_rsa.pub từ máy master sang máy clone
+#thư mục /home/cdinfra/.ssh/authorized_keys
