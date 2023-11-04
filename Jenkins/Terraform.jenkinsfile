@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Tung-1991/cd_infraVCBS.git'
+                git branch: 'main', url: 'https://github.com/Tung-1991/cd_infra.git'
             }
         }
 
