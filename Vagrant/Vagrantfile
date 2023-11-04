@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     ac1.disksize.size = 20000
     #eurolinux-vagrant/centos-stream-9
     ac1.vm.box = "ubuntu/jammy64"
-    ac1.vm.hostname = "VCBSADMIN"
+    ac1.vm.hostname = "ADMIN"
     ac1.vm.network "private_network", ip: "192.168.56.10"
     ac1.vm.provider "virtualbox" do |vb|
      vb.name = "ac1" 

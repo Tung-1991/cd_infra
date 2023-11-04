@@ -4,8 +4,8 @@ users:
     primary_group: root
     shell: /bin/bash
     lock_passwd: false
-    passwd: vcbs@123
+    passwd: test@123
 runcmd:
   - apt update
   - apt upgrade -y
-  - hostnamectl set-hostname VCBS
+  - hostnamectl set-hostname test
