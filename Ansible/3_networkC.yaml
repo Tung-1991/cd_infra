@@ -1,3 +1,7 @@
+#sử dụng task cho tiết kiệm thời gian (không khuyến khích) nên dùng cho các task nhỏ
+#handelers là module của Ansible, module này cơ bản giống Task 
+#handelers chỉ được chạy khi Task gắn với handelers tương ứng bị thay đổi.
+#handelers được chạy ở cuối cùng của playbook
 - hosts: all
   become: yes
   tasks:

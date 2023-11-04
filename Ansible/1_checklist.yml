@@ -1,3 +1,6 @@
+#dùng để chạy các câu lệnh checklist cho máy ubuntu
+#chia role thay vì chạy thẳng task để dễ cho việc quản lý quy trình
+#sử dụng role dễ cho việc quản lý khi quản lý task và dễ cho nhiều người chỉnh sửa
 - hosts: all
   become: yes
   roles:

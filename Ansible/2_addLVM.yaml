@@ -1,3 +1,5 @@
+#dung biến khai báo LVM trong thư mục để tạo ổ đĩa LVM 
+#(lưu ý giữa số lượng ổ đĩa cứng add ở terraform và số lượng biến ở thư mục var )
 - hosts: all
   become: yes
   tasks:

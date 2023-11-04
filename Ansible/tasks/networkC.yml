@@ -1,3 +1,6 @@
+#task đổi card mạng lưu ý module when xem có muốn thay đổi card mạng hay ko
+#nên đổi card mạng = terraform vì đổi card mạng = ansible sẽ mất kết nối
+#sử dụng để đổi proxy cho nhiều cụm máy ảo    
     - name: Copy and rename network configuration file
       loop: "{{ network_cards }}"
       template:

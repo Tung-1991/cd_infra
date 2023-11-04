@@ -1,3 +1,4 @@
+    #task cài ELK master được gọi từ lệnh ansible 4_elk.yaml
     - name: Add Elasticsearch GPG key
       apt_key:
         url: https://artifacts.elastic.co/GPG-KEY-elasticsearch

@@ -1,3 +1,5 @@
+    #task tạo LVM lưu ý các biến trong file group_vars/all.yaml
+    #số biến disk phải tương ứng với disk vật lý được tạo bởi terraform
     - name: Install required packages
       apt:
         name: lvm2

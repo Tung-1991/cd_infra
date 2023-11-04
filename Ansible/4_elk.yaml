@@ -1,3 +1,7 @@
+#sử dụng file hosts của Ansible để chạy với IP máy ELK chỉ định làm host
+#ansible này chạy cho 2 hosts khác nhau với mỗi hosts được chỉ định các task khác nhau
+#sử dụng tagss để chỉ định chỉ một cụm hosts được chạy thay vì chạy tất cả cụm 
+#ví dụ: ansible-playbook -i AIn elkmaster 4_elk.yaml --tags "elkslave" chỉ chạy cụm hosts ELKs 
 - hosts: ELKm
   become: yes
   tasks:

@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
   config.hostmanager.enabled = true 
   config.hostmanager.manage_host = true
   
-### ac1 vm  ####
+  ### tạo Máy mastercontrol ####
   config.vm.define "ac1" do |ac1|
     ac1.vm.box_download_insecure = true
     ac1.disksize.size = 20000
@@ -15,6 +15,38 @@ Vagrant.configure("2") do |config|
      vb.cpus = 2
      vb.memory = 2024
     end
+
+    ac1.vm.provision "shell", inline: <<-SHELL
+      # cài các gói cần thiết
+      apt-get update
+      apt-get upgrade -y
+      
+      # tạo user cdinfra và mã sshKey
+      useradd -m -p $(openssl passwd -1 "1") cdinfra
+      usermod -aG sudo cdinfra
+      su - cdinfra -c "ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa"
+
+      # cài Terraform
+      wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+      echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+      apt-get update
+      apt-get install terraform -y
+
+      # cài Ansible
+      apt-get update
+      apt-get install software-properties-common -y
+      add-apt-repository --yes --update ppa:ansible/ansible
+      apt-get install ansible -y
+
+      # cài Jenkins
+      apt-get install openjdk-11-jdk -y
+      curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+      echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable  binary/ | tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+      apt-get update
+      apt-get install jenkins -y
+
+      # xác thực quyền jenkins chạy dưới cdinfra (sẽ thay thế bằng user jenkins trên môi trường sau)
+      echo 'jenkins ALL=(cdinfra) NOPASSWD: ALL' >> /etc/sudoers
+    SHELL
   end
 end
-
