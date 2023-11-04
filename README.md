@@ -7,6 +7,10 @@ B4: Ansible chạy các task thực hiện cấu hình các máy đã được T
 B5: Kịch bản hoàn thiện máy chủ ELK thực hiện thu nhập log từ các cụm máy chủ khác bằng filebeast  
 
 Mô hình Luồng CD (mô hình tab chỉ có 1 VCSA và 1 ESXI)  
+Lab thực tế:
+- 1 máy quản trị chính 
+- 1 máy Ubuntu làm MasterControl (cài bằng vagrant)
+- 1 VCSA 8.0.2 + 1 VMWARE 8.0.2 (chạy khởi tạo 10 máy ảo)
 <img width="301" alt="image" src="https://github.com/Tung-1991/cd_infraVCBS/assets/63487060/32d3ab53-5fb4-43e7-baf1-5223b625a990">  
 
 Thời gian mà Terraform tạo 10 máy ảo theo 1 template clone có sẵn trên VCSA
