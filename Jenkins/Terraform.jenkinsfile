@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'What action should be performed?')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Tung-1991/cd_infraVCBS.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('Terraform') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('Terraform') {
+                    withCredentials([string(credentialsId: 'TF-password', variable: 'TF_PASSWORD')]) {
+                        sh 'echo ${TF_PASSWORD} | terraform plan'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                dir('Terraform') {
+                    withCredentials([string(credentialsId: 'TF-password', variable: 'TF_PASSWORD')]) {
+                        sh 'echo ${TF_PASSWORD} | terraform apply --auto-approve'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            steps {
+                dir('Terraform') {
+                    withCredentials([string(credentialsId: 'TF-password', variable: 'TF_PASSWORD')]) {
+                        sh 'echo ${TF_PASSWORD} | terraform destroy --auto-approve'
+                    }
+                }
+            }
+        }
+    }
+}

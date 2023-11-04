@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'ACTION', choices: ['Checklist', 'addLVM', 'networkC', 'elkmaster', 'elkslave'], description: 'What action should be performed?')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Tung-1991/cd_infraVCBS.git'
+            }
+        }
+
+        stage('Ansible 1_checklist') {
+            when {
+                expression { params.ACTION == 'Checklist' }
+            }
+            steps {
+                dir('Ansible') {
+                    sh 'ansible-playbook -i AIn 1_checklist.yml'
+                }
+            }
+        }
+        stage('Ansible 2_addLVM') {
+            when {
+                expression { params.ACTION == 'addLVM' }
+            }
+            steps {
+                dir('Ansible') {
+                    sh 'ansible-playbook -i AIn 2_addLVM.yaml'
+                }
+            }
+        }
+        stage('Ansible 3_networkC') {
+            when {
+                expression { params.ACTION == 'networkC' }
+            }
+            steps {
+                dir('Ansible') {
+                    sh 'ansible-playbook -i AIn 3_networkC.yaml'
+                }
+            }
+        }
+        stage('Ansible 4_elk elkmaster') {
+            when {
+                expression { params.ACTION == 'elkmaster' }
+            }
+            steps {
+                dir('Ansible') {
+                    sh 'ansible-playbook -i AIn 4_elk.yaml --tags elkmaster'
+                }
+            }
+        }
+        stage('Ansible 4_elk elkslave') {
+            when {
+                expression { params.ACTION == 'elkslave' }
+            }
+            steps {
+                dir('Ansible') {
+                    sh 'ansible-playbook -i AIn 4_elk.yaml --tags elkslave'
+                }
+            }
+        }
+    }
+}
