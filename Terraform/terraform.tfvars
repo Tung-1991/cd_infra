@@ -19,4 +19,5 @@ vms = {
   PC2={name="Ubuntu41-153",vcpu=1,memory=1024,vm_ip="192.168.41.153", DNS = ["8.8.8.8", "8.8.4.4"]}
   PC3={name="Ubuntu41-154",vcpu=1,memory=1024,vm_ip="192.168.41.154", DNS = ["8.8.8.8", "8.8.4.4"]}
   PC4={name="Ubuntu41-155",vcpu=1,memory=1024,vm_ip="192.168.41.155", DNS = ["8.8.8.8", "8.8.4.4"]}
+  PC5={name="Ubuntu41-156",vcpu=1,memory=1024,vm_ip="192.168.41.156", DNS = ["8.8.8.8", "8.8.4.4"]}
 }
