@@ -1,4 +1,4 @@
-Triển khai CDinfra 
+Triển khai CDinfra  
 B1: Máy quản trị (windows,Ubuntu) thực hiện cấu hình và đẩy code lên GIT  
 B2: Jenins chạy job lấy code từ git về để thực hiện theo kịch bản code  
 B3: Terraform tạo các máy ảo theo tài nguyên của VCSA ( ESXI) theo kịch bản CODE  
