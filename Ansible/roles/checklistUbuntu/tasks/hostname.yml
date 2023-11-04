@@ -1,4 +1,4 @@
-- name: doi Hostname VCBS
+- name: doi Hostname
   hostname:
     name: "{{ d_hostname }}"
   notify:
