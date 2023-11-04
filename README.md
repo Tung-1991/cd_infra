@@ -13,7 +13,7 @@ Lab thực tế:
 - 1 VCSA 8.0.2 + 1 VMWARE 8.0.2 (chạy khởi tạo 10 máy ảo)
 <img width="301" alt="image" src="https://github.com/Tung-1991/cd_infraVCBS/assets/63487060/32d3ab53-5fb4-43e7-baf1-5223b625a990">  
 
-Thời gian mà Terraform tạo 10 máy ảo theo 1 template clone có sẵn trên VCSA
+Thời gian  Terraform tạo 10 máy ảo theo 1 template clone có sẵn trên VCSA (đã thực hiện tạo và xóa 52 lần)
 <img width="945" alt="image" src="https://github.com/Tung-1991/cd_infraVCBS/assets/63487060/d2a3306c-eda8-4807-b057-46271d3c455f">  
 
 Thời gian Ansible thực hiện cấu hình 10 máy ảo theo checklist và 
