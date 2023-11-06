@@ -1,7 +1,7 @@
 #Hạ Tầng Tài Nguyên
-vsphere_user = "administrator@.com"
+vsphere_user = "administrator@vcbs.com"
 vsphere_server = "192.168.41.134"
-vsphere_datacenter = "@"
+vsphere_datacenter = "VCBS"
 vsphere_compute_cluster = "HO"
 vsphere_host = "192.168.41.133"
 vsphere_datastore = "datastore1"
