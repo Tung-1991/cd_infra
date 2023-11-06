@@ -20,7 +20,8 @@ Thời gian Ansible thực hiện cấu hình 10 máy ảo theo checklist
 <img width="942" alt="image" src="https://github.com/Tung-1991/cd_infraVCBS/assets/63487060/dac1a158-5d51-48c5-a73a-ff4f45246aa1">  
 
 SV ELK lọc các trường thông tin của các máy ảo
-<img width="957" alt="image" src="https://github.com/Tung-1991/cd_infraVCBS/assets/63487060/1169d80f-91a2-40c7-9528-228f73590b1f">  
+<img width="957" alt="image" src="https://github.com/Tung-1991/cd_infra/assets/63487060/692b9666-7bb1-4df7-b26a-d80090bc84ea">
+
 
 
 
